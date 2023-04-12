@@ -4,8 +4,15 @@ class CurrenciesController < ActionController::Base
     @parsed_currency_data = JSON.parse(@raw_currency_data)
     @symbols_hash = @parsed_currency_data.fetch("symbols")
     @array_of_symbols = @symbols_hash.keys
-
-
     render ({ :template => "currency_templates/step_one.html.erb"})
+  end
+
+  def second_currency
+    @from_symbol = params.fetch("from_currency")
+    @raw_currency_data = open("https://api.exchangerate.host/symbols").read
+    @parsed_currency_data = JSON.parse(@raw_currency_data)
+    @symbols_hash = @parsed_currency_data.fetch("symbols")
+    @array_of_symbols = @symbols_hash.keys
+    render ({ :template => "currency_templates/step_two.html.erb"})
   end
 end
